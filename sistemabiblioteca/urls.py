@@ -14,14 +14,35 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.db import router
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path,include
+from django.views.generic import RedirectView
+from rest_framework import routers
+from rest_framework_swagger.views import get_swagger_view
+
+from autor.Api import viewSets as autorViewsSets
+from editora.Api import viewSets as editoraViewsSets
+from livro.Api import viewSets as livroViewsSets
+
+from livro import urls as livro_url
+from biblioteca import urls as biblioteca_url
+
+router = routers.DefaultRouter()
+router.register(r'autor', autorViewsSets.AutoresViewsSet)
+router.register(r'livro', livroViewsSets.LivroViewsSet)
+router.register(r'editora',editoraViewsSets.EditorasViewsSet)
+
+schema_view = get_swagger_view(title='Biblioteca')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-] + static(settings.MEDIA_ROOT,document_root=settings.MEDIA_ROOT)
+    path('api/', include(router.urls)),
+    path('swagger/', schema_view),
+    path('livro/',include(livro_url)),
+    path('biblioteca/', include(biblioteca_url)),
+    path('', RedirectView.as_view(url='biblioteca/'))
+] + static(settings.MEDIA_ROOT, document_root=settings.MEDIA_ROOT)
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]

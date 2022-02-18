@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>Bem-vindo ao detalhe do livro</h1>
+
+
+<p><strong>Nome:</strong> {{ object.nome_livro }}
+<p><strong>Ano:</strong> {{ object.ano_lancamento }}
+
+{% endblock %}

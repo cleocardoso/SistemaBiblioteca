@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container p-4">
+   <table class="table">
+       <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Ano</th>
+                <th>Detalhe</th>
+                <th>Edite</th>
+            </tr>
+       </thead>
+       <tbody>
+            {% for livro in object_list %}
+                <tr>
+                    <td>{{ livro.nome_livro }}</td>
+                    <td>{{ livro.ano_lancamento }}</td>
+                    <td><a class="btn btn-primary" href="/livro/livro-detail-by-id/{{livro.id}}">Detalhe</a></td>
+                    <td><a class="btn btn-primary" href="/livro/livro-update-by-id/{{livro.id}}">Edite</a></td>
+                </tr>
+            {% empty %}
+                <tr><td>Sem livros registrados</td></tr>
+            {% endfor %}
+       </tbody>
+   </table>
+</div>
+
+{% endblock %}
